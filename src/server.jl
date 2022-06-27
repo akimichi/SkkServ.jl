@@ -25,7 +25,24 @@ function server(port)
             # 接続をコピー
             # peer = socket
             # リクエスト読込
-            write(socket, readline(socket, keep=true))
+            request = readline(socket, keep=true)
+            command = request[1]
+            println(command)
+            if command == '0' # 接続切断
+              close(socket)
+              exit()
+            elseif command == '1' # 変換結果を返す
+              write(socket, "$(request)\n")
+            elseif command == '2' # サーバーのバージョンを返す
+              write(socket, "SkkServ.0.1.0")
+            elseif command == '3' # サーバーのホスト名とアドレスを返す
+              write(socket, "$(gethostname()):$(port)")
+            elseif command == '4' # サーバーから補完された見出し候補一覧を返す
+              write(socket, "4$(request[1:end])\n")
+            else
+              throw("unknown request: $(request)")
+            end
+
         catch err
           println("エラーです")
           println(err)
