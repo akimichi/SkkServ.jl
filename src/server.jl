@@ -10,26 +10,28 @@
 using Sockets
 using SkkServ
 
+function server()
 
-server = listen(IPv4(0),1178)
+  connection = listen(IPv4(0),1178)
 
-# 無限ループさせる
-while true
-    # 接続待ち
-    socket = accept(server)
-    # 接続が来たら、@asyncでコルーチン生成
-    # 接続をコピー
-    # peer = socket
-    @async while isopen(socket)
-        try
-          # 接続をコピー
-          # peer = socket
-          # リクエスト読込
-          write(sock, readline(socket, keep=true))
-      catch err
-        println("エラーです")
-        println(err)
-        exit()
+  # 無限ループさせる
+  while true
+      # 接続待ち
+      socket = accept(connection)
+      # 接続が来たら、@asyncでコルーチン生成
+      # 接続をコピー
+      # peer = socket
+      @async while isopen(socket)
+          try
+            # 接続をコピー
+            # peer = socket
+            # リクエスト読込
+            write(sock, readline(socket, keep=true))
+        catch err
+          println("エラーです")
+          println(err)
+          exit()
+        end
       end
-    end
+  end
 end
