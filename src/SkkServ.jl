@@ -1,6 +1,6 @@
 module SkkServ
 
-# include("./server.jl")
+include("./server.jl")
 
 # Write your package code here.
 

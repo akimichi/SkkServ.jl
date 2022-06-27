@@ -8,10 +8,10 @@
 
 # ソケットを準備
 using Sockets
-using SkkServ
+# using SkkServ
 
-
-  connection = listen(IPv4(0),1179)
+function server(port) 
+  connection = listen(IPv4(0),port)
 
   # 無限ループさせる
   while true
@@ -33,3 +33,4 @@ using SkkServ
         end
       end
   end
+end
