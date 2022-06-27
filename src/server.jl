@@ -10,9 +10,8 @@
 using Sockets
 using SkkServ
 
-function server()
 
-  connection = listen(IPv4(0),1178)
+  connection = listen(IPv4(0),1179)
 
   # 無限ループさせる
   while true
@@ -26,7 +25,7 @@ function server()
             # 接続をコピー
             # peer = socket
             # リクエスト読込
-            write(sock, readline(socket, keep=true))
+            write(socket, readline(socket, keep=true))
         catch err
           println("エラーです")
           println(err)
@@ -34,4 +33,3 @@ function server()
         end
       end
   end
-end
