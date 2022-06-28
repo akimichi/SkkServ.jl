@@ -1,9 +1,9 @@
 module SkkServ
 
-export server
+export server, loadDictionary
 
 include("./server.jl")
+include("./load.jl")
 
-# Write your package code here.
 
 end
