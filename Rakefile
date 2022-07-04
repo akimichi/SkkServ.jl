@@ -13,7 +13,7 @@ namespace :redis do
 
   desc "dockerコンテナを起動する"
   task :run do
-    sh "docker run --name redis -d redis-server"
+    sh "docker run --name redis -d -p 6379:6379 redis-server"
 
   end
   desc "redisコンテナにログインする"
