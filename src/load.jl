@@ -16,7 +16,7 @@ function loadDictionary(redisConnection)
         if startswith(entries[1], ";;") 
           println(";;")
         else
-          hmset(redisConnection, user, Dict(midashi => entries[2], "dictionary" => basename(filepath)))
+          set(redisConnection,midashi, entries[2])
           # set(redisConnection, entries[1], entries[2])
         end 
       end 
