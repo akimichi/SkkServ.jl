@@ -36,7 +36,12 @@ function server(redisConnection)
                 close(socket)
                 exit()
               elseif command == '1' # 変換結果を返す
-                write(socket, "$(request)\n")
+                response = get(connection, request)
+                if response
+                  write(socket, response)
+                else 
+                  write(socket, "$(request)\n")
+                end
               elseif command == '2' # サーバーのバージョンを返す
                 write(socket, "SkkServ.0.1.0")
               elseif command == '3' # サーバーのホスト名とアドレスを返す
