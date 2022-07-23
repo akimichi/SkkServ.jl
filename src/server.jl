@@ -30,7 +30,7 @@ function server(redisConnection)
               # リクエスト読込
               request = readline(socket, keep=true)
               command = request[1],
-              midashi = strip(request[2])
+              midashi = strip(request[2:end], [' ','\n'])
               println(command)
               if command == '0' # 接続切断
                 close(socket)
