@@ -11,6 +11,8 @@ import Redis
 using Sockets
 # using SkkServ
 
+
+
 function server(redisConnection) 
  
   function(port)
@@ -28,28 +30,28 @@ function server(redisConnection)
               # 接続をコピー
               # peer = socket
               # リクエスト読込
-              request = readline(socket, keep=true)
-              command = request[1],
-              midashi = strip(request[2:end], [' ','\n'])
+              line = readline(socket, keep=true)
+              command = line[1],
+              midashi = strip(line[2:end], [' ','\n'])
               println(command)
               if command == '0' # 接続切断
                 close(socket)
                 exit()
               elseif command == '1' # 変換結果を返す
-                response = get(connection, request)
+                response = get(connection, line)
                 if response
                   write(socket, response)
                 else 
-                  write(socket, "$(request)\n")
+                  write(socket, "$(line)\n")
                 end
               elseif command == '2' # サーバーのバージョンを返す
                 write(socket, "SkkServ.0.1.0")
               elseif command == '3' # サーバーのホスト名とアドレスを返す
                 write(socket, "$(gethostname()):$(port)")
               elseif command == '4' # サーバーから補完された見出し候補一覧を返す
-                write(socket, "4$(request[1:end])\n")
+                write(socket, "4$(line[1:end])\n")
               else
-                throw("unknown request: $(request)")
+                throw("unknown request: $(line)")
               end
 
           catch err

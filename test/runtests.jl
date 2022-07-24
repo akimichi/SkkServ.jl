@@ -2,5 +2,9 @@ using SkkServ
 using Test
 
 @testset "SkkServ.jl" begin
-    # Write your tests here.
+  @testset "entry" begin
+      line = "1a \n"
+      tuple = entry(line)
+      @test tuple.command == "0"
+  end
 end
