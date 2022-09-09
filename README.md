@@ -17,6 +17,8 @@ julia> using Redis
 julia> connection = RedisConnection(host="broker.local") 
 julia> load = loadDictionary(connection )
 julia> load("./resource/SKK-JISYO.S")
+julia> service = server(connection)
+julia> service(1178)
 ~~~
 
 

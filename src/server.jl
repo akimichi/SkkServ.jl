@@ -9,12 +9,20 @@
 import Redis
 # ソケットを準備
 using Sockets
-# using SkkServ
+using StringEncodings
 
 
 
 function server(redisConnection) 
- 
+
+  function receiveLine(socket) {
+    
+    character = read(socket, UInt8)
+    # convert(Char, character)
+    decode(bytes, "UTF-8")
+  }
+
+
   function(port)
     connection = listen(IPv4(0),port)
 
@@ -30,25 +38,29 @@ function server(redisConnection)
               # 接続をコピー
               # peer = socket
               # リクエスト読込
+              # line = readline(socket)
               line = readline(socket, keep=true)
-              command = line[1],
-              midashi = strip(line[2:end], [' ','\n'])
-              println(command)
-              if command == '0' # 接続切断
+              tuple = entry(line)
+              # command = line[1],
+              println(tuple)
+              if tuple.command == '0' # 接続切断
                 close(socket)
                 exit()
-              elseif command == '1' # 変換結果を返す
-                response = get(connection, line)
+              elseif tuple.command == '1' # 変換結果を返す
+                println(midashi)
+                response = get(redisConnection, tuple.midashi)
+                println(response)
+                # write(socket, response)
                 if response
                   write(socket, response)
                 else 
                   write(socket, "$(line)\n")
                 end
-              elseif command == '2' # サーバーのバージョンを返す
+              elseif tuple.command == '2' # サーバーのバージョンを返す
                 write(socket, "SkkServ.0.1.0")
-              elseif command == '3' # サーバーのホスト名とアドレスを返す
+              elseif tuple.command == '3' # サーバーのホスト名とアドレスを返す
                 write(socket, "$(gethostname()):$(port)")
-              elseif command == '4' # サーバーから補完された見出し候補一覧を返す
+              elseif tuple.command == '4' # サーバーから補完された見出し候補一覧を返す
                 write(socket, "4$(line[1:end])\n")
               else
                 throw("unknown request: $(line)")
@@ -57,7 +69,7 @@ function server(redisConnection)
           catch err
             println("エラーです")
             println(err)
-            exit()
+            # exit()
           end
         end
     end

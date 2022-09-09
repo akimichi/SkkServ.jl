@@ -7,6 +7,7 @@ version = "0.1.0"
 Redis = "0cf705f9-a9e2-50d1-a699-2b372a39b750"
 Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 Sockets = "6462fe0b-24de-5631-8697-dd941f90decc"
+StringEncodings = "69024149-9ee7-55f6-a4c4-859efe599b68"
 
 [compat]
 Redis = "1"
